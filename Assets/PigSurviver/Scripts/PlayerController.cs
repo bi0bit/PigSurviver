@@ -6,21 +6,33 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private Pig _pig;
+    [SerializeField] private Pig _pig;
 
-    [SerializeField]
-    private Joystick _joystick;
+    [SerializeField] private Joystick _joystick;
 
-    [SerializeField]
-    private SpellButtonAnimationController _spellButtonAnimationBomb;
-    
-    [SerializeField]
-    private SpellButtonAnimationController _spellButtonAnimationShit;
+    [SerializeField] private SpellButtonAnimationController _spellButtonAnimationBomb;
 
-    private void FixedUpdate() {
-        Vector2 direction = _joystick.Horizontal != 0 ? Vector2.right * _joystick.Horizontal : Vector2.up * _joystick.Vertical;
+    [SerializeField] private SpellButtonAnimationController _spellButtonAnimationShit;
+
+
+    private void FixedUpdate()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        Vector2 direction =
+            Input.GetAxis("Horizontal") != 0
+                ? Vector2.right * Input.GetAxis("Horizontal")
+                : Vector2.up * Input.GetAxis("Vertical");
         _pig.Move(direction);
+        if(Input.GetKey(KeyCode.Q))
+            MakeBomb();
+        if (Input.GetKey(KeyCode.E))
+            MakeShit();
+#else
+        Vector2 direction = _joystick.Horizontal != 0
+            ? Vector2.right * _joystick.Horizontal
+            : Vector2.up * _joystick.Vertical;
+        _pig.Move(direction);
+#endif
     }
 
     public void MakeShit()
@@ -36,7 +48,6 @@ public class PlayerController : MonoBehaviour
                     () => _spellButtonAnimationShit.Show(3),
                     () => _canMakeShit = true));
             });
-
         }
     }
 
@@ -56,7 +67,6 @@ public class PlayerController : MonoBehaviour
                     () => _canMakeBomb = true));
             });
         }
-        
     }
 
     private bool _canMakeBomb = true;
