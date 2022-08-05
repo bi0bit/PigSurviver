@@ -35,10 +35,10 @@ public class Pig : ALifeEntity, IDamagable
     [SerializeField] private UnityEvent _stopped;
     
     [SerializeField]
-    private GameObject _bombPrefab;
+    private ObjectPoolWrap _bombPool;
 
     [SerializeField] 
-    private GameObject _shitPrefab;
+    private ObjectPoolWrap _shitPool;
 
     [SerializeField]
     private GameObject _meat;
@@ -130,11 +130,11 @@ public class Pig : ALifeEntity, IDamagable
 
     public void CreateBomb()
     {
-        Instantiate(_bombPrefab, transform.position, Quaternion.identity);
+        _bombPool.Get<Bomb>(transform.position);
     }
 
     public void CreateShit()
     {
-        Instantiate(_shitPrefab, transform.position, Quaternion.identity);
+        _shitPool.Get<Shit>(transform.position);
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class Food : MonoBehaviour
 {
 
-    private bool _isEaten = false;
+    private bool _isEaten;
 
     private AudioSource _audio;
 
@@ -17,7 +17,7 @@ public class Food : MonoBehaviour
     public event UnityAction Eaten
     {
         add => EventEaten += value;
-        remove => EventEaten += value;
+        remove => EventEaten -= value;
     }
 
     private void Awake()
@@ -29,13 +29,23 @@ public class Food : MonoBehaviour
             .SetLoops(-1, LoopType.Yoyo);
     }
 
+    private void OnEnable()
+    {
+        _isEaten = false;
+    }
+
+    private void OnDisable()
+    {
+        EventEaten = null;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (_isEaten) return;
         if(!other.TryGetComponent(out Pig _)) return;
         _isEaten = true;
-        _audio.Play();
-        EventEaten();
-        Destroy(gameObject, .2f);
+        AudioSource.PlayClipAtPoint(_audio.clip, transform.position);
+        EventEaten?.Invoke();
+        GetComponentInParent<GeneratorFood>().Realise(gameObject);
     }
 }

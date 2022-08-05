@@ -57,14 +57,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d103e5dd6249c42b3650dead5d6265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pig: {fileID: 0}
   _boundsGameArea:
     m_Center: {x: 0.81, y: -0.31, z: 0}
     m_Extent: {x: 8.37, y: 4.1, z: 0}
   _layerUnwalkable:
     serializedVersion: 2
     m_Bits: 256
-  _closePointRadius: 0.08
+  _closePointRadius: 0.05
 --- !u!114 &9103556071723500725
 MonoBehaviour:
   m_ObjectHideFlags: 0

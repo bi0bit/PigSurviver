@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using Debug = UnityEngine.Debug;
 
 [RequireComponent(typeof(Animator))]
-public abstract class Enemy : MonoBehaviour, IDamagable, IAIEnemyActor
+public abstract partial class Enemy : MonoBehaviour, IDamagable, IAIEnemyActor
 {
     protected int _damage = 1;
 
@@ -133,8 +133,8 @@ public abstract class Enemy : MonoBehaviour, IDamagable, IAIEnemyActor
     public void ToDamage(int damage)
     {
         EventDamaged(damage);
-        Instantiate(_ash, transform.position, Quaternion.identity);
-        Destroy(gameObject, .5f);
+        FXProvider.AshPool.Get<GameObject>(transform.position);
+        GetComponentInParent<GeneratorEnemy>().Release(gameObject);
     }
 
     public Vector2 GetTarget()
@@ -167,61 +167,4 @@ public abstract class Enemy : MonoBehaviour, IDamagable, IAIEnemyActor
         Gizmos.DrawWireSphere(transform.position, _distanceAggro);
     }
 #endif
-
-    public class InvalidProvider : ITargetsProvider
-    {
-        public Vector2 ProvideTarget()
-        {
-            return Vector2.negativeInfinity;
-        }
-
-        public int ProvidePriority()
-        {
-            return -1;
-        }
-    }
-    
-    public class ArgueZoneProvider : ITargetsProvider
-    {
-        private float _zoneDistance;
-
-        private Transform _zone;
-
-        private int _mask;
-
-        private bool isCachedTarget = true;
-        private Transform _cacheTarget = null;
-
-        private int _priority = 1;
-
-        public ArgueZoneProvider(float zoneDistance, Transform zone, int mask)
-        {
-            _zone = zone;
-            _zoneDistance = zoneDistance;
-            _mask = mask;
-        }
-        
-        public Vector2 ProvideTarget()
-        {
-            if (_cacheTarget != null)
-                return _cacheTarget.position;
-            Collider2D overlapCircle = Physics2D.OverlapCircle(_zone.position, _zoneDistance, _mask);
-            if (overlapCircle != null && overlapCircle.TryGetComponent(out Pig pig))
-            {
-                _priority = 2;
-                if (isCachedTarget)
-                    _cacheTarget = pig.transform;
-                return pig.transform.position;
-            }
-            _priority = -1;
-            return Vector2.negativeInfinity;
-        }
-
-        public int ProvidePriority()
-        {
-            return _priority;
-        }
-    }
-
-    
 }

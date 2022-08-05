@@ -5,26 +5,21 @@ using static Enemy;
 
 public class EnemyPatrolState : StateMachineBehaviour
 {
-
     private ALifeEntity _target;
     private Enemy _actor;
     private static readonly int Argue = Animator.StringToHash("Argue");
-
 
     private void OnGotDirty(Animator animator)
     {
         animator.SetBool(Dirty, true);
     }
-    
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _target = GameModel.Instance.MainLifeEntity;
         _actor = animator.GetComponent<Enemy>();
-        _actor.GotDirty += () =>
-        {
-            OnGotDirty(animator);
-        };
+        _actor.GotDirty += () => { OnGotDirty(animator); };
         _actor.SetProvider(new ArgueZoneProvider(_actor.DistanceAggro, _actor.transform, LayerMask.GetMask("Player")));
     }
 

@@ -20,6 +20,10 @@ public class Bomb : MonoBehaviour
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
         StartCoroutine(StartDetonate(_explosionDelay));
     }
 
@@ -30,7 +34,7 @@ public class Bomb : MonoBehaviour
         Camera.main.DOShakePosition(.4f, .3f, 4, 120f).SetAutoKill(true);
         DealDamage();
         yield return ExplosionEffect();
-        Destroy(gameObject);
+        GetComponentInParent<ObjectPoolWrap>().Realise(gameObject);
     }
 
     private void DealDamage()
@@ -47,12 +51,13 @@ public class Bomb : MonoBehaviour
 
     private IEnumerator ExplosionEffect()
     {
-        var explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        var explosion = FXProvider.ExplosionPool.Get(transform.position);
         explosion.transform.DOScale(new Vector3(1f, 1f), .5f)
+            .From(Vector3.one)
             .SetEase(Ease.Flash)
             .OnComplete(() =>
             {
-                Destroy(explosion.gameObject);
+                FXProvider.ExplosionPool.Realise(explosion);
             });
         yield return new WaitForSecondsRealtime(0.5f);
     }

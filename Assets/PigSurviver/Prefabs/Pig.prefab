@@ -134,8 +134,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _bombPrefab: {fileID: 9012890736652279469, guid: 91e1a512fcc10db4c9ff0703d9db8acf, type: 3}
-  _shitPrefab: {fileID: 5107004551834127136, guid: a6e9c7f587da5d54da41f1d9bfec986a, type: 3}
+  _bombPool: {fileID: 0}
+  _shitPool: {fileID: 0}
   _meat: {fileID: 3886465682035156330, guid: 97eb43ede98dde748b29238e8ba44829, type: 3}
 --- !u!61 &-407396427638286098
 BoxCollider2D:

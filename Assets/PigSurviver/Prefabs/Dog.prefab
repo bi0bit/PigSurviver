@@ -109,7 +109,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 2.6984482
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -244,7 +244,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.50238097}
   serializedVersion: 2
-  m_Radius: 0.63
+  m_Radius: 0.8464397
 --- !u!114 &6569904324804912191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
   _argueSpeedIncrease: 1
   _dirtySpeedDecrease: 1
   _angrySound: {fileID: 8300000, guid: a0e0bb933ecc39141855319126368e30, type: 3}
-  _idleSound: {fileID: 0}
+  _idleSound: {fileID: 8300000, guid: d4d289c27be493b41be1123f22afa697, type: 3}
   _ash: {fileID: 1096140933287130469, guid: dda3adf6ac1269c45bcf50e0dd74da92, type: 3}
 --- !u!50 &88623668738760865
 Rigidbody2D:

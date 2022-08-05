@@ -13,6 +13,13 @@ public class AutoDestroyDelay : MonoBehaviour
     private IEnumerator DelayDestroy()
     {
         yield return new WaitForSecondsRealtime(8);
-        Destroy(gameObject);
+        if (transform.parent.TryGetComponent(out ObjectPoolWrap pool))
+        {
+            pool.Realise(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

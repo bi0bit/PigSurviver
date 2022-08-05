@@ -42,7 +42,6 @@ public class GamePlayingState : StateMachineBehaviour
     private void CreateEnemy()
     {
         Enemy enemy = _model.GeneratorEnemy.Generate();
-        //enemy.Died += OnEnemyDeath;
     }
 
     
